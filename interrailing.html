@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Interrail Fastest Route — Travel-Day Aware Planner</title>
+<style>
+:root {
+  --accent: #0b6efd;
+  --muted: #6b7280;
+  --bg: #f7fafc;
+  --card: #ffffff;
+}
+
+/* GENERAL */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, 'Helvetica Neue', Arial;
+    background: url('background.jpg') no-repeat center center fixed;
+    background-size: cover; /* makes the image cover the whole screen */
+    color: #0f172a;
+  }
+
+  /* Optional: make your container slightly transparent for readability */
+  .container {
+    max-width: 1200px;
+    margin: 28px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.85); /* semi-transparent white */
+    border-radius: 12px;
+  }
+
+/* HEADER */
+header { display: flex; align-items: center; gap: 16px; }
+h1 { margin: 0; font-size: 1.5rem; }
+p.lead { margin: 8px 0 20px; color: var(--muted); }
+
+/* LAYOUT */
+.grid { display: block; }
+.map { width: 100%; height: 520px; border-radius: 12px; background: linear-gradient(180deg,#eef2ff,#fff); padding: 20px; overflow-y: scroll; }
+.card { background: var(--card); border-radius: 12px; padding: 18px; box-shadow: 0 6px 18px rgba(11,27,45,0.06); margin-bottom: 22px; }
+
+/* INPUTS */
+label { display: block; font-weight: 600; margin-top: 14px; }
+input[type=text], input[type=number], select, textarea {
+  width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #e6eef6; margin-top: 6px;
+}
+
+/* BUTTONS */
+button {
+  background: var(--accent); color: white; border: none; padding: 10px 14px; border-radius: 10px; font-weight: 700; cursor: pointer; margin-top: 12px;
+}
+button.ghost { background: transparent; color: var(--accent); border: 1px solid #e6eef6; }
+button[disabled] { opacity: 0.5; cursor: default; }
+
+/* ROUTE STEPS */
+.route-step {
+  display: flex; gap: 10px; align-items: center; padding: 8px; border-radius: 8px; background: #f1f5f9; margin-bottom: 8px;
+}
+.meta { color: var(--muted); font-size: 0.95rem; }
+
+/* FOOTER */
+.footer { margin-top: 18px; color: var(--muted); font-size: 0.9rem; }
+
+pre { background: #0f172a; color: #fff; padding: 12px; border-radius: 8px; overflow: auto; }
+
+/* MOBILE */
+@media (max-width: 980px) { .map { height: 300px; } }
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#0b6efd,#60a5fa);display:flex;align-items:center;justify-content:center;">
+    <img src="ikon.png" alt="IR Icon" style="width:32px;height:32px;">
+  </div>
+  <div>
+    <h1>Interrail Fastest Route — Travel-Day Aware Planner</h1>
+    <p class="lead">Optimizes fastest itineraries while respecting <strong>travel-day</strong> limits (e.g. 5 days in 1 month). Unlimited trains per travel day — days count when you board your first train that calendar day.</p>
+  </div>
+</header>
+
+<div class="grid" style="margin-top:18px">
+  <main class="card">
+    <div class="top-controls">
+      <div style="flex:1;min-width:220px">
+        <label for="start">Start station</label>
+        <input id="start" type="text" list="stations" placeholder="e.g. Paris" />
+      </div>
+      <div style="flex:1;min-width:220px">
+        <label for="end">Destination station</label>
+        <input id="end" type="text" list="stations" placeholder="e.g. Rome" />
+      </div>
+      <div style="width:140px">
+        <label for="maxDays">Max travel days</label>
+        <input id="maxDays" type="number" min="1" max="30" value="5" />
+      </div>
+    </div>
+
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button id="searchBtn">Find fastest valid route</button>
+      <button id="exampleBtn" class="ghost">Load example trip</button>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <section style="margin-top:12px">
+      <h4 style="margin-bottom:8px">How the constraint works</h4>
+      <p class="meta">A travel day counts when you take your first train on a calendar day. Unlimited rides in that day are allowed. If a journey departs on a later calendar date than the previous arrival, it consumes another travel day. Night trains are counted by departure date.</p>
+    </section>
+  </main>
+
+  <aside class="card">
+    <h3 style="margin-top:0">Network Map (demo)</h3>
+    <div class="map" id="mapArea"></div>
+    <datalist id="stations"></datalist>
+
+    <section style="margin-top:12px">
+      <h4 style="margin-bottom:8px">Route details</h4>
+      <div id="routeDetails" class="meta">No route yet.</div>
+    </section>
+  </aside>
+</div>
+</div>
+
+<script>
+// -----------------------------
+// Demo schedule
+// -----------------------------
+let connections = [
+  // ---------------------
+  // WESTERN & SOUTHERN EUROPE
+  // ---------------------
+  { "from": "Paris", "to": "Bordeaux", "dep": "06:45", "arr": "09:30" },
+  { "from": "Bordeaux", "to": "Toulouse", "dep": "10:00", "arr": "11:55" },
+  { "from": "Toulouse", "to": "Montpellier", "dep": "12:30", "arr": "14:25" },
+  { "from": "Montpellier", "to": "Marseille", "dep": "15:00", "arr": "16:15" },
+  { "from": "Marseille", "to": "Nice", "dep": "17:00", "arr": "18:40" },
+  { "from": "Montpellier", "to": "Barcelona", "dep": "07:00", "arr": "10:45" },
+
+  // ---------------------
+  // ITALY
+  // ---------------------
+  { "from": "Nice", "to": "Milan", "dep": "08:30", "arr": "12:00" },
+  { "from": "Milan", "to": "Rome", "dep": "13:00", "arr": "15:50" },
+  { "from": "Rome", "to": "Naples", "dep": "16:10", "arr": "17:30" },
+  { "from": "Milan", "to": "Venice", "dep": "09:00", "arr": "11:20" },
+  { "from": "Venice", "to": "Florence", "dep": "12:00", "arr": "14:10" },
+
+  // ---------------------
+  // GERMANY & CENTRAL EUROPE
+  // ---------------------
+  { "from": "Amsterdam", "to": "Hannover", "dep": "07:00", "arr": "10:20" },
+  { "from": "Hannover", "to": "Berlin", "dep": "11:00", "arr": "13:00" },
+  { "from": "Berlin", "to": "Prague", "dep": "14:00", "arr": "17:50" },
+  { "from": "Prague", "to": "Vienna", "dep": "18:30", "arr": "22:10" },
+  { "from": "Vienna", "to": "Budapest", "dep": "08:00", "arr": "10:40" },
+  { "from": "Budapest", "to": "Bratislava", "dep": "11:30", "arr": "12:50" },
+  { "from": "Frankfurt", "to": "Munich", "dep": "09:00", "arr": "12:10" },
+  { "from": "Munich", "to": "Salzburg", "dep": "13:00", "arr": "14:20" },
+  { "from": "Salzburg", "to": "Vienna", "dep": "15:00", "arr": "17:30" },
+  { "from": "Cologne", "to": "Brussels", "dep": "08:00", "arr": "09:40" },
+  { "from": "Brussels", "to": "Paris", "dep": "10:30", "arr": "12:00" },
+
+  // ---------------------
+  // SWITZERLAND
+  // ---------------------
+  { "from": "Zurich", "to": "Milan", "dep": "09:00", "arr": "12:50" },
+  { "from": "Zurich", "to": "Geneva", "dep": "13:00", "arr": "15:30" },
+  { "from": "Geneva", "to": "Lyon", "dep": "16:00", "arr": "17:50" },
+  { "from": "Basel", "to": "Frankfurt", "dep": "08:00", "arr": "10:00" },
+
+  // ---------------------
+  // SCANDINAVIA
+  // ---------------------
+  { "from": "Oslo", "to": "Stockholm", "dep": "08:00", "arr": "12:45" },
+  { "from": "Stockholm", "to": "Goteborg", "dep": "13:30", "arr": "16:45" },
+  { "from": "Goteborg", "to": "Copenhagen", "dep": "17:30", "arr": "20:00" },
+  { "from": "Copenhagen", "to": "Hamburg", "dep": "21:00", "arr": "23:30" },
+  { "from": "Stockholm", "to": "Helsinki", "dep": "17:00", "arr": "22:30", "note": "Ferry included" },
+
+  // ---------------------
+  // EASTERN EUROPE
+  // ---------------------
+  { "from": "Warsaw", "to": "Krakow", "dep": "08:00", "arr": "10:40" },
+  { "from": "Krakow", "to": "Budapest", "dep": "12:00", "arr": "16:00" },
+  { "from": "Budapest", "to": "Belgrade", "dep": "17:00", "arr": "22:30" },
+  { "from": "Belgrade", "to": "Sofia", "dep": "08:00", "arr": "14:00" },
+  { "from": "Sofia", "to": "Istanbul", "dep": "15:00", "arr": "23:40" },
+  { "from": "Bucharest", "to": "Sofia", "dep": "09:00", "arr": "15:50" },
+  { "from": "Bucharest", "to": "Budapest", "dep": "18:00", "arr": "06:30", "note": "Overnight" },
+  { "from": "Istanbul", "to": "Sofia", "dep": "15:00", "arr": "23:40" },
+
+  // ---------------------
+  // BALKANS
+  // ---------------------
+  { "from": "Ljubljana", "to": "Zagreb", "dep": "09:00", "arr": "10:40" },
+  { "from": "Zagreb", "to": "Belgrade", "dep": "11:30", "arr": "16:00" },
+  { "from": "Zagreb", "to": "Budapest", "dep": "17:00", "arr": "20:30" },
+
+  // ---------------------
+  // IBERIAN PENINSULA
+  // ---------------------
+  { "from": "Madrid", "to": "Barcelona", "dep": "08:00", "arr": "11:30" },
+  { "from": "Madrid", "to": "Valencia", "dep": "13:00", "arr": "16:10" },
+  { "from": "Valencia", "to": "Alicante", "dep": "17:00", "arr": "18:40" },
+  { "from": "Barcelona", "to": "Valencia", "dep": "09:00", "arr": "12:20" },
+
+  // ---------------------
+  // UK & IRELAND
+  // ---------------------
+  { "from": "London", "to": "Paris", "dep": "07:30", "arr": "10:50" },
+  { "from": "London", "to": "Manchester", "dep": "11:00", "arr": "13:20" },
+  { "from": "Manchester", "to": "Glasgow", "dep": "14:00", "arr": "17:30" },
+
+  // ---------------------
+  // GREEK ISLANDS (Ferry routes noted on map)
+  // ---------------------
+  { "from": "Athens", "to": "Mykonos", "dep": "07:00", "arr": "12:30", "note": "Ferry" },
+  { "from": "Mykonos", "to": "Santorini", "dep": "14:00", "arr": "18:30", "note": "Ferry" },
+  { "from": "Athens", "to": "Crete", "dep": "08:00", "arr": "15:00", "note": "Ferry" },
+  // Greece Rail
+  { "from": "Athens", "to": "Larissa", "dep": "08:00", "arr": "12:30" },
+  { "from": "Larissa", "to": "Thessaloniki", "dep": "13:00", "arr": "15:30" },
+  { "from": "Athens", "to": "Volos", "dep": "09:00", "arr": "13:00" },
+  { "from": "Athens", "to": "Lamia", "dep": "08:30", "arr": "11:00" },
+  { "from": "Athens", "to": "Patras", "dep": "07:30", "arr": "11:00" },
+  { "from": "Athens", "to": "Chalkis", "dep": "09:00", "arr": "10:30" },
+  { "from": "Larissa", "to": "Volos", "dep": "14:00", "arr": "14:45" },
+  
+  // Ferry routes
+  { "from": "Athens", "to": "Mykonos", "dep": "07:00", "arr": "12:30", "note": "Ferry" },
+  { "from": "Mykonos", "to": "Santorini", "dep": "14:00", "arr": "18:30", "note": "Ferry" },
+  { "from": "Athens", "to": "Crete", "dep": "08:00", "arr": "15:00", "note": "Ferry" },
+  { "from": "Volos", "to": "Alonissos", "dep": "10:00", "arr": "12:00", "note": "Ferry" },
+  { "from": "Thessaloniki", "to": "Kavala", "dep": "13:00", "arr": "15:00" },
+  { "from": "Kavala", "to": "Alexandroupoli", "dep": "16:00", "arr": "18:00" },
+  // Italian southern train connections
+  { "from": "Rome", "to": "Napoli", "dep": "07:00", "arr": "09:30" },
+  { "from": "Napoli", "to": "Salerno", "dep": "10:00", "arr": "10:45" },
+  { "from": "Salerno", "to": "Paola", "dep": "11:00", "arr": "13:00" },
+  { "from": "Paola", "to": "Cosenza", "dep": "13:15", "arr": "14:00" },
+  { "from": "Bari", "to": "Brindisi", "dep": "08:00", "arr": "09:15" },
+  { "from": "Brindisi", "to": "Lecce", "dep": "09:30", "arr": "10:15" },
+  { "from": "Taranto", "to": "Brindisi", "dep": "10:00", "arr": "11:00" },
+  { "from": "Metaponto", "to": "Taranto", "dep": "11:30", "arr": "12:30" },
+
+  // Ferry routes from Southern Italy
+  { "from": "Bari", "to": "Igoumenitsa", "dep": "08:00", "arr": "17:00", "note": "Ferry" },
+  { "from": "Brindisi", "to": "Patras", "dep": "09:00", "arr": "18:00", "note": "Ferry" },
+  { "from": "Taranto", "to": "Corfu", "dep": "07:00", "arr": "15:00", "note": "Ferry" },
+  // ---------------------
+  { "from": "Paris", "to": "Lyon", "dep": "07:00", "arr": "09:00" },
+  { "from": "Lyon", "to": "Marseille", "dep": "09:30", "arr": "11:50" },
+  { "from": "Paris", "to": "Nantes", "dep": "08:00", "arr": "10:30" },
+  { "from": "Nantes", "to": "Brest", "dep": "11:00", "arr": "13:20" },
+  { "from": "Rennes", "to": "Mont-Saint-Michel", "dep": "09:00", "arr": "10:30" },
+  { "from": "Bordeaux", "to": "La Rochelle", "dep": "10:00", "arr": "11:30" },
+  { "from": "Toulouse", "to": "Brive", "dep": "12:00", "arr": "14:00" }
+
+];
+
+
+// -----------------------------
+// Build graph
+// -----------------------------
+function buildGraph(conns){
+  const g = {};
+  conns.forEach(c => {
+    if(!g[c.from]) g[c.from]=[];
+    g[c.from].push({to:c.to, dep:c.dep, arr:c.arr});
+  });
+  return g;
+}
+let graph = buildGraph(connections);
+
+// Populate datalist
+function populateStations(){
+  const dl = document.getElementById('stations'); dl.innerHTML='';
+  const stations = Object.keys(graph).concat(...Object.values(graph).flat().map(e=>e.to));
+  const uniq = Array.from(new Set(stations)).sort();
+  uniq.forEach(s => dl.appendChild(Object.assign(document.createElement('option'),{value:s})));
+}
+populateStations();
+
+// -----------------------------
+// Utilities
+// -----------------------------
+function toMinutes(t){ 
+  if(!t) return null;
+  const parts = t.split(':').map(Number);
+  return parts[0]*60 + parts[1];
+}
+function minutesToHM(mins){ 
+  if(mins===null) return ''; 
+  const h=Math.floor(mins/60); const m=mins%60; 
+  return (h? h+'h ':'') + (m? m+'m':'0m'); 
+}
+function requiresNewDay(prevArrivalMinutes, nextDepMinutes){
+  if(prevArrivalMinutes === null) return true; 
+  return nextDepMinutes < prevArrivalMinutes;
+}
+
+// -----------------------------
+// Priority queue
+// -----------------------------
+class MinHeap {
+  constructor(){ this.data = []; }
+  push(item){ this.data.push(item); this._siftUp(); }
+  pop(){ if(!this.data.length) return null; const top=this.data[0]; const last=this.data.pop(); if(this.data.length){ this.data[0]=last; this._siftDown(); } return top; }
+  _siftUp(){ let i=this.data.length-1; while(i>0){ const p=Math.floor((i-1)/2); if(this._cmp(this.data[p],this.data[i])<=0) break; [this.data[p],this.data[i]]=[this.data[i],this.data[p]]; i=p; } }
+  _siftDown(){ let i=0; const n=this.data.length; while(true){ let l=2*i+1, r=2*i+2, smallest=i; if(l<n && this._cmp(this.data[l],this.data[smallest])<0) smallest=l; if(r<n && this._cmp(this.data[r],this.data[smallest])<0) smallest=r; if(smallest===i) break; [this.data[i],this.data[smallest]]=[this.data[smallest],this.data[i]]; i=smallest; } }
+  _cmp(a,b){ if(a.totalTime!==b.totalTime) return a.totalTime-b.totalTime; return a.days-b.days; }
+  isEmpty(){ return this.data.length===0; }
+}
+
+// -----------------------------
+// Route search
+// -----------------------------
+function findFastestRoute(start, end, maxDays=5){
+  if(!graph[start]) return {error:'Start station not in schedule.'};
+  const heap = new MinHeap();
+  heap.push({city:start, arrival:null, days:0, totalTime:0, path:[]});
+  const visited = {};
+
+  while(!heap.isEmpty()){
+    const state = heap.pop();
+    const {city, arrival, days, totalTime, path} = state;
+    if(city===end && days>0) return {path:path, time:totalTime, travelDays:days};
+
+    visited[city] = visited[city] || {};
+    if(visited[city][days]!==undefined && visited[city][days]<=totalTime) continue;
+    visited[city][days]=totalTime;
+
+    const edges = graph[city] || [];
+    for(const e of edges){
+      const depMin = toMinutes(e.dep), arrMin = toMinutes(e.arr);
+      if(depMin===null||arrMin===null) continue;
+
+      let newDays = days;
+      if(requiresNewDay(arrival, depMin)) newDays=days+1;
+      if(newDays>maxDays) continue;
+
+      const addedTime = (arrMin-depMin>=0)?(arrMin-depMin):(arrMin+24*60-depMin);
+      const newTotal = totalTime+addedTime;
+      const newPath = path.concat([{from:city,to:e.to,dep:e.dep,arr:e.arr}]);
+      heap.push({city:e.to, arrival:arrMin, days:newDays, totalTime:newTotal, path:newPath});
+    }
+  }
+
+  return {error:'No valid route found within the given travel-day limit.'};
+}
+
+// -----------------------------
+// Map coordinates
+// -----------------------------
+const coords = {
+  // UK & IRELAND
+  'London': [100, 40],
+  'Manchester': [80, 20],
+  'Glasgow': [60, 0],
+
+  // WESTERN & SOUTHERN EUROPE
+  'Paris': [200, 80],
+  'Lyon': [220, 160],
+  'Marseille': [260, 280],
+  'Nice': [300, 300],
+  'Bordeaux': [160, 200],
+  'Toulouse': [180, 260],
+  'Montpellier': [220, 240],
+  'Nantes': [140, 160],
+  'Tours': [180, 180],
+  'Orléans': [200, 160],
+  'Le Mans': [160, 140],
+  'Blois': [180, 160],
+  'Angers': [140, 180],
+  'Saumur': [160, 200],
+  'Poitiers': [200, 200],
+  'Limoges': [240, 240],
+  'La Rochelle': [120, 220],
+  'Niort': [160, 220],
+  'Saintes': [160, 240],
+  'Royan': [140, 260],
+  'Arcachon': [120, 280],
+  'Libourne': [160, 280],
+  'Bergerac': [200, 280],
+  'Périgueux': [220, 260],
+  'Brive': [240, 260],
+  'Angoulême': [200, 240],
+
+  // Brittany / Normandy
+  'Brest': [60, 120],
+  'Quimper': [80, 140],
+  'Lorient': [100, 160],
+  'Vannes': [120, 160],
+  'Rennes': [140, 140],
+  'Saint-Malo': [160, 100],
+  'Dinan': [140, 120],
+  'Morlaix': [80, 100],
+  'Roscoff': [60, 80],
+  'Pontorson': [160, 100],
+  'Mont-Saint-Michel': [160, 100],
+  'Caen': [180, 80],
+  'Bayeux': [180, 60],
+  'Le Havre': [200, 40],
+  'Lisieux': [180, 60],
+  'Evreux': [200, 80],
+  'Alençon': [180, 100],
+  'Deauville': [200, 60],
+
+  // Massif Central
+  'Tulle': [260, 280],
+  'Ussel': [280, 280],
+  'Montluçon': [260, 260],
+  'Clermont-Ferrand': [280, 260],
+  'Le Mont-Dore': [280, 280],
+  'St-Flour': [280, 300],
+  'Aurillac': [300, 300],
+  'Figeac': [300, 280],
+
+  // Burgundy & Franche-Comté
+  'Dijon': [300, 200],
+  'Beaune': [300, 180],
+  'Montbard': [280, 160],
+  'Chalon-sur-Saône': [320, 180],
+  'Roanne': [300, 220],
+  'Bourg-en-Bresse': [320, 200],
+  
+  // Lorraine
+  'Metz': [360, 140],
+  'Nancy': [340, 160],
+  'Épinal': [340, 180],
+  'Lunéville': [360, 160],
+  'St-Dié-des-Vosges': [360, 180],
+  'Remiremont': [360, 200],
+  'Colmar': [380, 160],
+  'Mulhouse': [400, 160],
+  'Belfort': [420, 160],
+
+  // Italy
+  'Milan': [460, 200],
+  'Venice': [500, 180],
+  'Florence': [480, 240],
+  'Rome': [500, 300],
+  'Naples': [540, 360],
+  'Foggia': [580, 260],
+  'Bari': [600, 280],
+  'Brindisi': [620, 300],
+  'Taranto': [600, 320],
+  'Lecce': [640, 360],
+  'Salerno': [520, 380],
+  'Cosenza': [580, 420],
+  'Paola': [560, 400],
+  'Sibari': [590, 430],
+  'Metaponto': [580, 380],
+  'Alicante': [200, 340],
+  'Valencia': [220, 320],
+  'Barcelona': [240, 300],
+  'Madrid': [180, 360],
+  'Seville': [140, 400],
+  'Lisbon': [100, 440],
+  'Porto': [80, 400],
+  'Coimbra': [100, 380],
+  'Faro': [120, 420],
+
+  // Germany & Central Europe
+  'Amsterdam': [320, 40],
+  'Brussels': [300, 60],
+  'Cologne': [320, 100],
+  'Frankfurt': [360, 120],
+  'Hannover': [380, 60],
+  'Berlin': [420, 40],
+  'Munich': [440, 160],
+  'Salzburg': [460, 180],
+  'Prague': [460, 100],
+  'Vienna': [500, 140],
+  'Budapest': [540, 160],
+  'Bratislava': [520, 140],
+  'Krakow': [480, 80],
+  'Warsaw': [500, 60],
+  'Frankfurt': [360, 120],
+  
+
+  // Switzerland
+  'Zurich': [440, 180],
+  'Geneva': [380, 180],
+  'Basel': [400, 160],
+
+  // Scandinavia
+  'Oslo': [600, 0],
+  'Stockholm': [660, 20],
+  'Goteborg': [640, 60],
+  'Copenhagen': [620, 100],
+  'Hamburg': [600, 140],
+  'Helsinki': [680, 0],
+
+  // Eastern Europe & Balkans
+  'Warsaw': [700, 40],
+  'Krakow': [680, 80],
+  'Belgrade': [640, 200],
+  'Bucharest': [700, 220],
+  'Sofia': [680, 260],
+  'Ljubljana': [600, 180],
+  'Zagreb': [620, 180],
+  'Alexandroupoli': [740, 200],
+  'Kavala': [720, 240],
+
+  // Greece
+  'Athens': [600, 320],
+  'Piraeus': [610, 330],
+  'Thessaloniki': [580, 280],
+  'Larissa': [560, 300],
+  'Volos': [540, 320],
+  'Lamia': [540, 360],
+  'Patras': [520, 400],
+  'Kalamata': [500, 440],
+  'Chalkis': [560, 360],
+  'Ioannina': [480, 320],
+  'Trikala': [540, 300],
+  'Corinth': [550, 420],
+  'Igoumenitsa': [450, 320],
+  'Mykonos': [620, 360],
+  'Santorini': [640, 400],
+  'Crete': [660, 460]
+
+
+};
+
+
+
+// -----------------------------
+// Map renderer (SVG)
+// -----------------------------
+function drawMap(routeNodes, showAll=false){
+  const mapArea = document.getElementById('mapArea');
+  mapArea.innerHTML='';
+  const w = mapArea.clientWidth, h = mapArea.clientHeight;
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(svgNS,'svg');
+  svg.setAttribute('width','100%'); 
+  svg.setAttribute('height','100%'); 
+  svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+
+  const allCoords = Object.values(coords);
+  const xs = allCoords.map(p=>p[0]), ys = allCoords.map(p=>p[1]);
+  const minx=Math.min(...xs), maxx=Math.max(...xs), miny=Math.min(...ys), maxy=Math.max(...ys);
+  const margin=20, scaleX=(w-2*margin)/(maxx-minx||1), scaleY=(h-2*margin)/(maxy-miny||1);
+  function project(p){ return [(p[0]-minx)*scaleX+margin,(p[1]-miny)*scaleY+margin]; }
+
+  // background lines
+  Object.keys(graph).forEach(a=>{
+    graph[a].forEach(e=>{
+      const b=e.to;
+      if(!coords[a]||!coords[b]) return;
+      const pa=project(coords[a]), pb=project(coords[b]);
+      const line=document.createElementNS(svgNS,'line');
+      line.setAttribute('x1',pa[0]); line.setAttribute('y1',pa[1]);
+      line.setAttribute('x2',pb[0]); line.setAttribute('y2',pb[1]);
+      line.setAttribute('stroke','#e6eef6'); line.setAttribute('stroke-width','2');
+      svg.appendChild(line);
+    });
+  });
+
+  // highlight route
+  if(routeNodes && routeNodes.length>1){
+    for(let i=0;i<routeNodes.length-1;i++){
+      const a=routeNodes[i], b=routeNodes[i+1]; 
+      if(!coords[a]||!coords[b]) continue;
+      const pa=project(coords[a]), pb=project(coords[b]);
+      const line=document.createElementNS(svgNS,'line');
+      line.setAttribute('x1',pa[0]); line.setAttribute('y1',pa[1]);
+      line.setAttribute('x2',pb[0]); line.setAttribute('y2',pb[1]);
+      line.setAttribute('stroke','#0b6efd'); line.setAttribute('stroke-width','4');
+      svg.appendChild(line);
+    }
+  }
+
+  // draw stations
+  Object.keys(coords).forEach(st=>{
+    if(!showAll && routeNodes && !routeNodes.includes(st)) return; // only show route nodes
+    const p=project(coords[st]);
+    const g=document.createElementNS(svgNS,'g');
+    const circle=document.createElementNS(svgNS,'circle');
+    circle.setAttribute('cx',p[0]); circle.setAttribute('cy',p[1]);
+    circle.setAttribute('r',4); circle.setAttribute('fill','#fff'); 
+    circle.setAttribute('stroke','#0b6efd'); circle.setAttribute('stroke-width',1);
+    g.appendChild(circle);
+    const text=document.createElementNS(svgNS,'text');
+    text.setAttribute('x',p[0]+10); text.setAttribute('y',p[1]+6); 
+    text.setAttribute('font-size','12'); text.setAttribute('fill','#0b1724');
+    text.textContent = st;
+    g.appendChild(text);
+    svg.appendChild(g);
+  });
+
+  mapArea.appendChild(svg);
+}
+
+drawMap([], true);
+
+
+// -----------------------------
+// UI handlers
+// -----------------------------
+const startInput=document.getElementById('start');
+const endInput=document.getElementById('end');
+const maxDaysInput=document.getElementById('maxDays');
+const searchBtn=document.getElementById('searchBtn');
+const exampleBtn=document.getElementById('exampleBtn');
+const resultDiv=document.getElementById('result');
+const routeDetails=document.getElementById('routeDetails');
+
+searchBtn.addEventListener('click', ()=>{
+  const s=startInput.value.trim(), e=endInput.value.trim();
+  const maxD=parseInt(maxDaysInput.value,10)||5;
+  if(!s||!e){ resultDiv.innerHTML='<div style="color:#b91c1c;font-weight:700">Please enter start and destination stations.</div>'; return; }
+  searchBtn.disabled=true; searchBtn.textContent='Searching...';
+  setTimeout(()=>{
+    const res=findFastestRoute(s,e,maxD);
+    renderResult(res);
+    searchBtn.disabled=false; searchBtn.textContent='Find fastest valid route';
+  },10);
+});
+
+exampleBtn.addEventListener('click', ()=>{
+  startInput.value='Paris'; endInput.value='Florence'; maxDaysInput.value='10';
+  searchBtn.click();
+});
+
+function renderResult(res){
+  resultDiv.innerHTML=''; routeDetails.textContent='';
+  if(!res){ resultDiv.innerHTML='<div style="color:#b91c1c;font-weight:700">Internal error.</div>'; return; }
+  if(res.error){ resultDiv.innerHTML='<div style="color:#b91c1c;font-weight:700">'+res.error+'</div>'; return; }
+
+  const el=document.createElement('div');
+  el.innerHTML=`<div style="font-weight:800;font-size:1.05rem">Fastest valid route</div>`;
+  const meta=document.createElement('div'); meta.className='meta'; meta.style.marginTop='6px';
+  meta.textContent=`Total in-train time: ${minutesToHM(res.time)} • Travel days used: ${res.travelDays}`;
+  el.appendChild(meta);
+
+  const list=document.createElement('div'); list.style.marginTop='12px';
+  res.path.forEach((step,i)=>{
+    const stepEl=document.createElement('div'); stepEl.className='route-step';
+    stepEl.innerHTML=`<div style="font-weight:700">${i+1}.</div><div>${step.from} → ${step.to}<br><span class="meta">${step.dep} → ${step.arr}</span></div>`;
+    list.appendChild(stepEl);
+  });
+  el.appendChild(list);
+  resultDiv.appendChild(el);
+
+  const routeStations=res.path.map(s=>s.from).concat([res.path[res.path.length-1].to]);
+  drawMap(routeStations);
+}
+
+// Initial empty map
+drawMap([]);
+</script>
+</body>
+</html>
