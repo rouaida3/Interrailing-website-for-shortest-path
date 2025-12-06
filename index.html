@@ -17,10 +17,11 @@ html, body {
     height: 100%;
     margin: 0;
     font-family: Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, 'Helvetica Neue', Arial;
-    background: url('background.jpg') no-repeat center center fixed;
+    background: url('images/background.jpg') no-repeat center center fixed;
     background-size: cover; /* makes the image cover the whole screen */
     color: #0f172a;
   }
+  
 
   /* Optional: make your container slightly transparent for readability */
   .container {
@@ -67,13 +68,248 @@ pre { background: #0f172a; color: #fff; padding: 12px; border-radius: 8px; overf
 
 /* MOBILE */
 @media (max-width: 980px) { .map { height: 300px; } }
+/* ==================== COUNTRY INFO SECTION ==================== */
+.journey-info-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.journey-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.journey-header h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.journey-controls {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.journey-controls input {
+  padding: 10px 15px;
+  border: 2px solid #e6eef6;
+  border-radius: 8px;
+  font-size: 14px;
+  min-width: 180px;
+  background: white;
+}
+
+.journey-controls input:focus {
+  border-color: #0b6efd;
+  outline: none;
+}
+
+.journey-controls button {
+  padding: 10px 20px;
+  background: #0b6efd;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.journey-controls button:hover {
+  background: #095cd8;
+}
+
+.journey-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.stat {
+  text-align: center;
+  padding: 15px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Country Cards */
+.country-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.placeholder-card {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.placeholder-card h3 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.placeholder-card p {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.country-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  border: 1px solid #e6eef6;
+}
+
+.country-image {
+  height: 180px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.country-info {
+  padding: 20px;
+}
+
+.country-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.country-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.country-flag {
+  font-size: 1.5rem;
+}
+
+.country-capital {
+  color: #0b6efd;
+  font-weight: 500;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.country-description {
+  color: #5d6d7e;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.country-facts {
+  background: #f7fafc;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #e6eef6;
+}
+
+.fact {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid #e6eef6;
+  font-size: 13px;
+}
+
+.fact:last-child {
+  border-bottom: none;
+}
+
+.fact-label {
+  color: #6b7280;
+}
+
+.fact-value {
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.train-info {
+  background: #e8f4fc;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 4px solid #0b6efd;
+}
+
+.train-route {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.route-cities {
+  font-weight: 500;
+  color: #2c3e50;
+  font-size: 14px;
+}
+
+.train-time {
+  color: #6b7280;
+  font-size: 13px;
+}
+@media (max-width: 768px) {
+  .journey-controls {
+    flex-direction: column;
+  }
+  
+  .journey-controls input,
+  .journey-controls button {
+    width: 100%;
+  }
+  
+  .country-cards-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .journey-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 </style>
 </head>
 <body>
 <div class="container">
 <header>
   <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#0b6efd,#60a5fa);display:flex;align-items:center;justify-content:center;">
-    <img src="ikon.png" alt="IR Icon" style="width:32px;height:32px;">
+    <img src="images/ikon.png" alt="IR Icon" style="width:32px;height:32px;">
   </div>
   <div>
     <h1>Interrail Fastest Route — Travel-Day Aware Planner</h1>
@@ -121,6 +357,40 @@ pre { background: #0f172a; color: #fff; padding: 12px; border-radius: 8px; overf
       <div id="routeDetails" class="meta">No route yet.</div>
     </section>
   </aside>
+<div class="journey-info-container">
+  <div class="journey-header">
+    <h2>Countries Along Your Journey</h2>
+    <div class="journey-controls">
+      <input type="text" id="journey-start" placeholder="From: London" value="Paris">
+      <input type="text" id="journey-end" placeholder="To: Istanbul" value="Barcelona">
+      <button id="show-countries">Show Countries on Route</button>
+    </div>
+  </div>
+  
+  <div class="journey-stats">
+    <div class="stat">
+      <span class="stat-value" id="countries-count">-</span>
+      <span class="stat-label">Countries</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value" id="route-distance">-</span>
+      <span class="stat-label">Distance</span>
+    </div>
+    
+    <div class="stat">
+      <span class="stat-value" id="travel-hours">-</span>
+      <span class="stat-label">Travel Hours</span>
+    </div>
+  </div>
+  
+  <div class="country-cards-container" id="country-cards">
+    <!-- Country cards will be inserted here -->
+    <div class="placeholder-card">
+      <h3>Plan a journey to see country information</h3>
+      <p>Enter starting and destination cities above to view photos and information about each country along your route.</p>
+    </div>
+  </div>
+</div>
 </div>
 </div>
 
@@ -128,139 +398,949 @@ pre { background: #0f172a; color: #fff; padding: 12px; border-radius: 8px; overf
 // -----------------------------
 // Demo schedule
 // -----------------------------
+
 let connections = [
-  // ---------------------
-  // WESTERN & SOUTHERN EUROPE
-  // ---------------------
-  { "from": "Paris", "to": "Bordeaux", "dep": "06:45", "arr": "09:30" },
-  { "from": "Bordeaux", "to": "Toulouse", "dep": "10:00", "arr": "11:55" },
-  { "from": "Toulouse", "to": "Montpellier", "dep": "12:30", "arr": "14:25" },
-  { "from": "Montpellier", "to": "Marseille", "dep": "15:00", "arr": "16:15" },
-  { "from": "Marseille", "to": "Nice", "dep": "17:00", "arr": "18:40" },
-  { "from": "Montpellier", "to": "Barcelona", "dep": "07:00", "arr": "10:45" },
-
-  // ---------------------
-  // ITALY
-  // ---------------------
-  { "from": "Nice", "to": "Milan", "dep": "08:30", "arr": "12:00" },
-  { "from": "Milan", "to": "Rome", "dep": "13:00", "arr": "15:50" },
-  { "from": "Rome", "to": "Naples", "dep": "16:10", "arr": "17:30" },
-  { "from": "Milan", "to": "Venice", "dep": "09:00", "arr": "11:20" },
-  { "from": "Venice", "to": "Florence", "dep": "12:00", "arr": "14:10" },
-
-  // ---------------------
-  // GERMANY & CENTRAL EUROPE
-  // ---------------------
-  { "from": "Amsterdam", "to": "Hannover", "dep": "07:00", "arr": "10:20" },
-  { "from": "Hannover", "to": "Berlin", "dep": "11:00", "arr": "13:00" },
-  { "from": "Berlin", "to": "Prague", "dep": "14:00", "arr": "17:50" },
-  { "from": "Prague", "to": "Vienna", "dep": "18:30", "arr": "22:10" },
-  { "from": "Vienna", "to": "Budapest", "dep": "08:00", "arr": "10:40" },
-  { "from": "Budapest", "to": "Bratislava", "dep": "11:30", "arr": "12:50" },
-  { "from": "Frankfurt", "to": "Munich", "dep": "09:00", "arr": "12:10" },
-  { "from": "Munich", "to": "Salzburg", "dep": "13:00", "arr": "14:20" },
-  { "from": "Salzburg", "to": "Vienna", "dep": "15:00", "arr": "17:30" },
-  { "from": "Cologne", "to": "Brussels", "dep": "08:00", "arr": "09:40" },
-  { "from": "Brussels", "to": "Paris", "dep": "10:30", "arr": "12:00" },
-
-  // ---------------------
-  // SWITZERLAND
-  // ---------------------
-  { "from": "Zurich", "to": "Milan", "dep": "09:00", "arr": "12:50" },
-  { "from": "Zurich", "to": "Geneva", "dep": "13:00", "arr": "15:30" },
-  { "from": "Geneva", "to": "Lyon", "dep": "16:00", "arr": "17:50" },
-  { "from": "Basel", "to": "Frankfurt", "dep": "08:00", "arr": "10:00" },
-
-  // ---------------------
-  // SCANDINAVIA
-  // ---------------------
-  { "from": "Oslo", "to": "Stockholm", "dep": "08:00", "arr": "12:45" },
-  { "from": "Stockholm", "to": "Goteborg", "dep": "13:30", "arr": "16:45" },
-  { "from": "Goteborg", "to": "Copenhagen", "dep": "17:30", "arr": "20:00" },
-  { "from": "Copenhagen", "to": "Hamburg", "dep": "21:00", "arr": "23:30" },
-  { "from": "Stockholm", "to": "Helsinki", "dep": "17:00", "arr": "22:30", "note": "Ferry included" },
-
-  // ---------------------
-  // EASTERN EUROPE
-  // ---------------------
-  { "from": "Warsaw", "to": "Krakow", "dep": "08:00", "arr": "10:40" },
-  { "from": "Krakow", "to": "Budapest", "dep": "12:00", "arr": "16:00" },
-  { "from": "Budapest", "to": "Belgrade", "dep": "17:00", "arr": "22:30" },
-  { "from": "Belgrade", "to": "Sofia", "dep": "08:00", "arr": "14:00" },
-  { "from": "Sofia", "to": "Istanbul", "dep": "15:00", "arr": "23:40" },
-  { "from": "Bucharest", "to": "Sofia", "dep": "09:00", "arr": "15:50" },
-  { "from": "Bucharest", "to": "Budapest", "dep": "18:00", "arr": "06:30", "note": "Overnight" },
-  { "from": "Istanbul", "to": "Sofia", "dep": "15:00", "arr": "23:40" },
-
-  // ---------------------
-  // BALKANS
-  // ---------------------
-  { "from": "Ljubljana", "to": "Zagreb", "dep": "09:00", "arr": "10:40" },
-  { "from": "Zagreb", "to": "Belgrade", "dep": "11:30", "arr": "16:00" },
-  { "from": "Zagreb", "to": "Budapest", "dep": "17:00", "arr": "20:30" },
-
-  // ---------------------
-  // IBERIAN PENINSULA
-  // ---------------------
-  { "from": "Madrid", "to": "Barcelona", "dep": "08:00", "arr": "11:30" },
-  { "from": "Madrid", "to": "Valencia", "dep": "13:00", "arr": "16:10" },
-  { "from": "Valencia", "to": "Alicante", "dep": "17:00", "arr": "18:40" },
-  { "from": "Barcelona", "to": "Valencia", "dep": "09:00", "arr": "12:20" },
-
-  // ---------------------
-  // UK & IRELAND
-  // ---------------------
-  { "from": "London", "to": "Paris", "dep": "07:30", "arr": "10:50" },
-  { "from": "London", "to": "Manchester", "dep": "11:00", "arr": "13:20" },
-  { "from": "Manchester", "to": "Glasgow", "dep": "14:00", "arr": "17:30" },
-
-  // ---------------------
-  // GREEK ISLANDS (Ferry routes noted on map)
-  // ---------------------
-  { "from": "Athens", "to": "Mykonos", "dep": "07:00", "arr": "12:30", "note": "Ferry" },
-  { "from": "Mykonos", "to": "Santorini", "dep": "14:00", "arr": "18:30", "note": "Ferry" },
-  { "from": "Athens", "to": "Crete", "dep": "08:00", "arr": "15:00", "note": "Ferry" },
-  // Greece Rail
-  { "from": "Athens", "to": "Larissa", "dep": "08:00", "arr": "12:30" },
-  { "from": "Larissa", "to": "Thessaloniki", "dep": "13:00", "arr": "15:30" },
-  { "from": "Athens", "to": "Volos", "dep": "09:00", "arr": "13:00" },
-  { "from": "Athens", "to": "Lamia", "dep": "08:30", "arr": "11:00" },
-  { "from": "Athens", "to": "Patras", "dep": "07:30", "arr": "11:00" },
-  { "from": "Athens", "to": "Chalkis", "dep": "09:00", "arr": "10:30" },
-  { "from": "Larissa", "to": "Volos", "dep": "14:00", "arr": "14:45" },
+  // ==================== UK & IRELAND ====================
+  { "from": "London", "to": "Paris", "dep": "07:30", "arr": "10:50", "type": "Eurostar" },
+  { "from": "London", "to": "Edinburgh", "dep": "08:00", "arr": "12:15", "type": "High-speed" },
+  { "from": "London", "to": "Dublin", "dep": "08:30", "arr": "12:45", "type": "Ferry/Train" },
+  { "from": "London", "to": "Brussels", "dep": "07:00", "arr": "09:25", "type": "Eurostar" },
   
-  // Ferry routes
-  { "from": "Athens", "to": "Mykonos", "dep": "07:00", "arr": "12:30", "note": "Ferry" },
-  { "from": "Mykonos", "to": "Santorini", "dep": "14:00", "arr": "18:30", "note": "Ferry" },
-  { "from": "Athens", "to": "Crete", "dep": "08:00", "arr": "15:00", "note": "Ferry" },
-  { "from": "Volos", "to": "Alonissos", "dep": "10:00", "arr": "12:00", "note": "Ferry" },
-  { "from": "Thessaloniki", "to": "Kavala", "dep": "13:00", "arr": "15:00" },
-  { "from": "Kavala", "to": "Alexandroupoli", "dep": "16:00", "arr": "18:00" },
-  // Italian southern train connections
-  { "from": "Rome", "to": "Napoli", "dep": "07:00", "arr": "09:30" },
-  { "from": "Napoli", "to": "Salerno", "dep": "10:00", "arr": "10:45" },
-  { "from": "Salerno", "to": "Paola", "dep": "11:00", "arr": "13:00" },
-  { "from": "Paola", "to": "Cosenza", "dep": "13:15", "arr": "14:00" },
-  { "from": "Bari", "to": "Brindisi", "dep": "08:00", "arr": "09:15" },
-  { "from": "Brindisi", "to": "Lecce", "dep": "09:30", "arr": "10:15" },
-  { "from": "Taranto", "to": "Brindisi", "dep": "10:00", "arr": "11:00" },
-  { "from": "Metaponto", "to": "Taranto", "dep": "11:30", "arr": "12:30" },
-
-  // Ferry routes from Southern Italy
-  { "from": "Bari", "to": "Igoumenitsa", "dep": "08:00", "arr": "17:00", "note": "Ferry" },
-  { "from": "Brindisi", "to": "Patras", "dep": "09:00", "arr": "18:00", "note": "Ferry" },
-  { "from": "Taranto", "to": "Corfu", "dep": "07:00", "arr": "15:00", "note": "Ferry" },
-  // ---------------------
-  { "from": "Paris", "to": "Lyon", "dep": "07:00", "arr": "09:00" },
-  { "from": "Lyon", "to": "Marseille", "dep": "09:30", "arr": "11:50" },
-  { "from": "Paris", "to": "Nantes", "dep": "08:00", "arr": "10:30" },
-  { "from": "Nantes", "to": "Brest", "dep": "11:00", "arr": "13:20" },
-  { "from": "Rennes", "to": "Mont-Saint-Michel", "dep": "09:00", "arr": "10:30" },
-  { "from": "Bordeaux", "to": "La Rochelle", "dep": "10:00", "arr": "11:30" },
-  { "from": "Toulouse", "to": "Brive", "dep": "12:00", "arr": "14:00" }
-
+  // ==================== FRANCE & BENELUX ====================
+  { "from": "Paris", "to": "Brussels", "dep": "08:00", "arr": "09:25", "type": "TGV/Thalys" },
+  { "from": "Paris", "to": "Lyon", "dep": "09:00", "arr": "10:45", "type": "TGV" },
+  { "from": "Paris", "to": "Frankfurt", "dep": "10:00", "arr": "12:30", "type": "ICE/TGV" },
+  { "from": "Paris", "to": "Madrid", "dep": "19:00", "arr": "08:30", "type": "Night train" },
+  { "from": "Paris", "to": "Vienna", "dep": "19:00", "arr": "08:30", "type": "Nightjet" },
+  { "from": "Paris", "to": "Berlin", "dep": "08:00", "arr": "14:30", "type": "ICE/TGV" },
+  
+  { "from": "Brussels", "to": "Amsterdam", "dep": "08:30", "arr": "09:55", "type": "Thalys" },
+  { "from": "Brussels", "to": "Luxembourg", "dep": "11:00", "arr": "13:00", "type": "Intercity" },
+  { "from": "Brussels", "to": "Cologne", "dep": "10:00", "arr": "11:40", "type": "ICE" },
+  
+  { "from": "Amsterdam", "to": "Berlin", "dep": "09:00", "arr": "12:30", "type": "ICE" },
+  { "from": "Amsterdam", "to": "Cologne", "dep": "08:00", "arr": "10:05", "type": "ICE" },
+  
+  { "from": "Lyon", "to": "Geneva", "dep": "08:30", "arr": "10:00", "type": "TER/TGV" },
+  { "from": "Lyon", "to": "Marseille", "dep": "09:00", "arr": "10:45", "type": "TGV" },
+  { "from": "Lyon", "to": "Milan", "dep": "10:30", "arr": "13:45", "type": "TGV/Frecciarossa" },
+  { "from": "Lyon", "to": "Zurich", "dep": "11:00", "arr": "13:30", "type": "TGV Lyria" },
+  { "from": "Lyon", "to": "Barcelona", "dep": "08:00", "arr": "11:45", "type": "TGV" },
+  
+  { "from": "Marseille", "to": "Barcelona", "dep": "10:30", "arr": "14:15", "type": "TGV" },
+  { "from": "Marseille", "to": "Milan", "dep": "11:00", "arr": "15:30", "type": "Thello" },
+  
+  { "from": "Luxembourg", "to": "Paris", "dep": "09:00", "arr": "11:30", "type": "TGV" },
+  { "from": "Luxembourg", "to": "Frankfurt", "dep": "10:00", "arr": "12:00", "type": "ICE" },
+  
+  // ==================== GERMANY ====================
+  { "from": "Frankfurt", "to": "Cologne", "dep": "08:00", "arr": "09:20", "type": "ICE" },
+  { "from": "Frankfurt", "to": "Munich", "dep": "09:00", "arr": "11:50", "type": "ICE" },
+  { "from": "Frankfurt", "to": "Berlin", "dep": "10:00", "arr": "13:00", "type": "ICE" },
+  { "from": "Frankfurt", "to": "Prague", "dep": "12:00", "arr": "16:30", "type": "EC" },
+  
+  { "from": "Berlin", "to": "Warsaw", "dep": "08:00", "arr": "11:45", "type": "EC" },
+  { "from": "Berlin", "to": "Prague", "dep": "09:00", "arr": "12:45", "type": "EC" },
+  { "from": "Berlin", "to": "Hamburg", "dep": "10:00", "arr": "11:45", "type": "ICE" },
+  { "from": "Berlin", "to": "Copenhagen", "dep": "12:00", "arr": "16:45", "type": "EC" },
+  { "from": "Berlin", "to": "Budapest", "dep": "08:00", "arr": "17:30", "type": "EC" },
+  
+  { "from": "Munich", "to": "Vienna", "dep": "08:00", "arr": "11:20", "type": "Railjet" },
+  { "from": "Munich", "to": "Zurich", "dep": "09:00", "arr": "11:40", "type": "EC" },
+  { "from": "Munich", "to": "Prague", "dep": "10:00", "arr": "14:15", "type": "EC" },
+  { "from": "Munich", "to": "Salzburg", "dep": "11:00", "arr": "12:10", "type": "Railjet" },
+  { "from": "Munich", "to": "Milan", "dep": "12:00", "arr": "16:30", "type": "EC" },
+  { "from": "Munich", "to": "Venice", "dep": "08:00", "arr": "12:30", "type": "EC" },
+  { "from": "Munich", "to": "Rome", "dep": "07:00", "arr": "14:30", "type": "EC" },
+  { "from": "Munich", "to": "Zagreb", "dep": "09:00", "arr": "15:30", "type": "EC" },
+  
+  { "from": "Hamburg", "to": "Copenhagen", "dep": "08:00", "arr": "10:45", "type": "ICE/EC" },
+  { "from": "Hamburg", "to": "Berlin", "dep": "09:00", "arr": "10:45", "type": "ICE" },
+  
+  // ==================== SWITZERLAND ====================
+  { "from": "Zurich", "to": "Milan", "dep": "08:00", "arr": "10:40", "type": "EC" },
+  { "from": "Zurich", "to": "Geneva", "dep": "09:00", "arr": "11:30", "type": "IC" },
+  { "from": "Zurich", "to": "Munich", "dep": "10:00", "arr": "12:40", "type": "EC" },
+  { "from": "Zurich", "to": "Vienna", "dep": "11:00", "arr": "16:30", "type": "Nightjet" },
+  { "from": "Zurich", "to": "Budapest", "dep": "08:00", "arr": "16:30", "type": "Railjet/EC" },
+  { "from": "Zurich", "to": "Prague", "dep": "09:00", "arr": "16:00", "type": "EC" },
+  
+  { "from": "Geneva", "to": "Lyon", "dep": "08:30", "arr": "10:00", "type": "TER/TGV" },
+  
+  // ==================== AUSTRIA ====================
+  { "from": "Vienna", "to": "Bratislava", "dep": "08:00", "arr": "08:40", "type": "Regional" },
+  { "from": "Vienna", "to": "Budapest", "dep": "09:00", "arr": "11:20", "type": "Railjet" },
+  { "from": "Vienna", "to": "Prague", "dep": "10:00", "arr": "13:30", "type": "Railjet" },
+  { "from": "Vienna", "to": "Venice", "dep": "12:00", "arr": "16:45", "type": "Railjet" },
+  { "from": "Vienna", "to": "Warsaw", "dep": "19:00", "arr": "06:30", "type": "Nightjet" },
+  { "from": "Vienna", "to": "Zagreb", "dep": "08:00", "arr": "11:30", "type": "Railjet" },
+  { "from": "Vienna", "to": "Ljubljana", "dep": "09:00", "arr": "12:30", "type": "EC" },
+  { "from": "Vienna", "to": "Salzburg", "dep": "09:00", "arr": "11:30", "type": "Railjet" },
+  
+  { "from": "Salzburg", "to": "Munich", "dep": "08:00", "arr": "09:10", "type": "Railjet/Regional" },
+  { "from": "Salzburg", "to": "Venice", "dep": "10:00", "arr": "15:45", "type": "Railjet/EC" },
+  { "from": "Salzburg", "to": "Zurich", "dep": "11:00", "arr": "15:30", "type": "EC" },
+  
+  // ==================== ITALY ====================
+  { "from": "Milan", "to": "Rome", "dep": "08:00", "arr": "10:50", "type": "Frecciarossa" },
+  { "from": "Milan", "to": "Venice", "dep": "09:00", "arr": "11:10", "type": "Frecciarossa" },
+  { "from": "Milan", "to": "Paris", "dep": "07:00", "arr": "13:30", "type": "TGV/Frecciarossa" },
+  { "from": "Milan", "to": "Lyon", "dep": "12:00", "arr": "15:45", "type": "TGV/Frecciarossa" },
+  
+  { "from": "Rome", "to": "Naples", "dep": "08:30", "arr": "09:50", "type": "Frecciarossa" },
+  { "from": "Rome", "to": "Milan", "dep": "10:30", "arr": "13:20", "type": "Frecciarossa" },
+  { "from": "Rome", "to": "Venice", "dep": "11:30", "arr": "15:00", "type": "Frecciarossa" },
+  
+  { "from": "Venice", "to": "Ljubljana", "dep": "08:00", "arr": "11:45", "type": "EC" },
+  { "from": "Venice", "to": "Zagreb", "dep": "09:00", "arr": "14:45", "type": "EC" },
+  
+  // ==================== CZECH REPUBLIC & SLOVAKIA ====================
+  { "from": "Prague", "to": "Vienna", "dep": "08:00", "arr": "11:30", "type": "Railjet" },
+  { "from": "Prague", "to": "Berlin", "dep": "09:00", "arr": "12:45", "type": "EC" },
+  { "from": "Prague", "to": "Munich", "dep": "10:00", "arr": "14:15", "type": "EC" },
+  { "from": "Prague", "to": "Warsaw", "dep": "11:00", "arr": "16:30", "type": "EC" },
+  { "from": "Prague", "to": "Budapest", "dep": "12:00", "arr": "17:45", "type": "EC" },
+  
+  { "from": "Bratislava", "to": "Vienna", "dep": "08:30", "arr": "09:10", "type": "Regional" },
+  { "from": "Bratislava", "to": "Budapest", "dep": "10:00", "arr": "11:10", "type": "Regional" },
+  
+  // ==================== HUNGARY ====================
+  { "from": "Budapest", "to": "Zagreb", "dep": "10:00", "arr": "13:30", "type": "IC" },
+  { "from": "Budapest", "to": "Belgrade", "dep": "11:00", "arr": "16:30", "type": "IC" },
+  { "from": "Budapest", "to": "Bucharest", "dep": "19:00", "arr": "09:00", "type": "Night train" },
+  { "from": "Budapest", "to": "Belgrade", "dep": "08:00", "arr": "13:30", "type": "IC" },
+  { "from": "Paris", "to": "Budapest", "dep": "19:00", "arr": "10:30", "type": "Nightjet" },
+  
+  // ==================== SLOVENIA & CROATIA ====================
+  { "from": "Ljubljana", "to": "Zagreb", "dep": "08:00", "arr": "09:40", "type": "IC" },
+  { "from": "Ljubljana", "to": "Venice", "dep": "09:00", "arr": "12:45", "type": "EC" },
+  
+  { "from": "Zagreb", "to": "Belgrade", "dep": "09:00", "arr": "13:30", "type": "IC" },
+  { "from": "Zagreb", "to": "Budapest", "dep": "10:00", "arr": "13:30", "type": "IC" },
+  
+  // ==================== BALKANS ====================
+  { "from": "Belgrade", "to": "Sofia", "dep": "09:00", "arr": "15:00", "type": "IC" },
+  { "from": "Belgrade", "to": "Budapest", "dep": "10:00", "arr": "15:30", "type": "IC" },
+  { "from": "Belgrade", "to": "Sarajevo", "dep": "08:00", "arr": "13:30", "type": "Regional" },
+  { "from": "Belgrade", "to": "Zagreb", "dep": "10:00", "arr": "14:30", "type": "IC" },
+  
+  { "from": "Sarajevo", "to": "Zagreb", "dep": "08:00", "arr": "14:00", "type": "Regional" },
+  { "from": "Sarajevo", "to": "Podgorica", "dep": "10:00", "arr": "18:00", "type": "Regional" },
+  
+  { "from": "Podgorica", "to": "Belgrade", "dep": "20:00", "arr": "07:00", "type": "Night train" },
+  { "from": "Podgorica", "to": "Sarajevo", "dep": "08:00", "arr": "16:00", "type": "Regional" },
+  
+  { "from": "Tirana", "to": "Podgorica", "dep": "08:00", "arr": "13:00", "type": "Bus/train" },
+  
+  { "from": "Skopje", "to": "Thessaloniki", "dep": "09:00", "arr": "12:00", "type": "Regional" },
+  { "from": "Skopje", "to": "Belgrade", "dep": "08:00", "arr": "15:00", "type": "Regional" },
+  { "from": "Skopje", "to": "Sofia", "dep": "10:00", "arr": "14:00", "type": "Regional" },
+  
+  // ==================== BULGARIA & ROMANIA ====================
+  { "from": "Sofia", "to": "Bucharest", "dep": "08:00", "arr": "14:30", "type": "IC" },
+  { "from": "Sofia", "to": "Belgrade", "dep": "09:00", "arr": "15:00", "type": "IC" },
+  { "from": "Sofia", "to": "Thessaloniki", "dep": "10:00", "arr": "15:30", "type": "IC" },
+  { "from": "Sofia", "to": "Istanbul", "dep": "20:00", "arr": "08:00", "type": "Night train" },
+  
+  { "from": "Bucharest", "to": "Budapest", "dep": "19:00", "arr": "09:00", "type": "Night train" },
+  { "from": "Bucharest", "to": "Chisinau", "dep": "09:00", "arr": "16:00", "type": "Regional" },
+  { "from": "Bucharest", "to": "Istanbul", "dep": "20:00", "arr": "12:00", "type": "Night train" },
+  
+  // ==================== MOLDOVA & UKRAINE ====================
+  { "from": "Chisinau", "to": "Bucharest", "dep": "08:00", "arr": "15:00", "type": "Regional" },
+  { "from": "Chisinau", "to": "Kyiv", "dep": "09:00", "arr": "19:00", "type": "Intercity" },
+  
+  { "from": "Kyiv", "to": "Warsaw", "dep": "08:00", "arr": "16:00", "type": "Intercity" },
+  { "from": "Kyiv", "to": "Minsk", "dep": "09:00", "arr": "16:00", "type": "Intercity" },
+  { "from": "Kyiv", "to": "Bucharest", "dep": "20:00", "arr": "14:00", "type": "Night train" },
+  
+  // ==================== BELARUS & POLAND ====================
+  { "from": "Minsk", "to": "Warsaw", "dep": "20:00", "arr": "08:00", "type": "Night train" },
+  { "from": "Minsk", "to": "Vilnius", "dep": "08:00", "arr": "12:30", "type": "Regional" },
+  { "from": "Minsk", "to": "Kyiv", "dep": "09:00", "arr": "16:00", "type": "Intercity" },
+  
+  { "from": "Warsaw", "to": "Krakow", "dep": "08:00", "arr": "10:20", "type": "EIP" },
+  { "from": "Warsaw", "to": "Berlin", "dep": "09:00", "arr": "12:45", "type": "EC" },
+  { "from": "Warsaw", "to": "Prague", "dep": "10:00", "arr": "15:30", "type": "EC" },
+  { "from": "Warsaw", "to": "Vilnius", "dep": "08:30", "arr": "14:30", "type": "TLK" },
+  
+  // ==================== BALTICS ====================
+  { "from": "Vilnius", "to": "Riga", "dep": "09:00", "arr": "13:30", "type": "Regional" },
+  { "from": "Vilnius", "to": "Warsaw", "dep": "08:00", "arr": "14:30", "type": "TLK" },
+  
+  { "from": "Riga", "to": "Tallinn", "dep": "08:00", "arr": "11:30", "type": "Regional" },
+  { "from": "Riga", "to": "Vilnius", "dep": "09:00", "arr": "13:30", "type": "Regional" },
+  
+  { "from": "Tallinn", "to": "Helsinki", "dep": "08:00", "arr": "10:30", "type": "Ferry" },
+  { "from": "Tallinn", "to": "Riga", "dep": "09:00", "arr": "12:30", "type": "Regional" },
+  
+  // ==================== SCANDINAVIA ====================
+  { "from": "Copenhagen", "to": "Hamburg", "dep": "08:00", "arr": "10:45", "type": "ICE/EC" },
+  { "from": "Copenhagen", "to": "Stockholm", "dep": "09:00", "arr": "13:45", "type": "X2000/SJ" },
+  { "from": "Copenhagen", "to": "Oslo", "dep": "10:00", "arr": "15:15", "type": "Regional" },
+  { "from": "Copenhagen", "to": "Berlin", "dep": "11:00", "arr": "15:45", "type": "EC" },
+  
+  { "from": "Stockholm", "to": "Oslo", "dep": "08:00", "arr": "12:30", "type": "SJ" },
+  { "from": "Stockholm", "to": "Copenhagen", "dep": "10:00", "arr": "14:45", "type": "SJ" },
+  { "from": "Stockholm", "to": "Helsinki", "dep": "17:30", "arr": "08:00", "type": "Night ferry" },
+  
+  { "from": "Oslo", "to": "Stockholm", "dep": "08:30", "arr": "13:00", "type": "SJ" },
+  { "from": "Oslo", "to": "Copenhagen", "dep": "09:30", "arr": "15:00", "type": "Regional" },
+  
+  { "from": "Helsinki", "to": "Stockholm", "dep": "17:30", "arr": "08:00", "type": "Night ferry" },
+  
+  // ==================== GREECE ====================
+  { "from": "Athens", "to": "Thessaloniki", "dep": "08:00", "arr": "12:30", "type": "IC" },
+  { "from": "Athens", "to": "Thessaloniki", "dep": "10:00", "arr": "14:30", "type": "IC" },
+  { "from": "Athens", "to": "Sofia", "dep": "20:00", "arr": "10:00", "type": "Night train" },
+  { "from": "Athens", "to": "Istanbul", "dep": "20:00", "arr": "13:00", "type": "Night train" },
+  
+  { "from": "Thessaloniki", "to": "Sofia", "dep": "08:00", "arr": "13:30", "type": "IC" },
+  { "from": "Thessaloniki", "to": "Athens", "dep": "09:00", "arr": "13:30", "type": "IC" },
+  { "from": "Thessaloniki", "to": "Skopje", "dep": "10:00", "arr": "13:00", "type": "Regional" },
+  
+  // ==================== TURKEY ====================
+  { "from": "Istanbul", "to": "Sofia", "dep": "20:00", "arr": "08:00", "type": "Night train" },
+  { "from": "Istanbul", "to": "Bucharest", "dep": "21:00", "arr": "13:00", "type": "Night train" },
+  { "from": "Istanbul", "to": "Athens", "dep": "20:00", "arr": "13:00", "type": "Night train" },
+  
+  // ==================== IBERIAN PENINSULA ====================
+  { "from": "Madrid", "to": "Barcelona", "dep": "08:30", "arr": "11:20", "type": "AVE" },
+  { "from": "Madrid", "to": "Lisbon", "dep": "09:30", "arr": "13:15", "type": "Alvia" },
+  { "from": "Madrid", "to": "Paris", "dep": "17:00", "arr": "22:30", "type": "Night train" },
+  
+  { "from": "Barcelona", "to": "Marseille", "dep": "08:00", "arr": "11:45", "type": "TGV" },
+  { "from": "Barcelona", "to": "Madrid", "dep": "14:00", "arr": "16:50", "type": "AVE" },
+  { "from": "Barcelona", "to": "Paris", "dep": "09:00", "arr": "16:30", "type": "TGV" },
+  
+  { "from": "Lisbon", "to": "Madrid", "dep": "09:00", "arr": "13:30", "type": "Lusitania" },
 ];
+// ==================== COUNTRY DATA ====================
+// Add this AFTER your connections array, BEFORE the buildGraph function
 
+const countryData = {
+  'United Kingdom': {
+    flag: '🇬🇧',
+    capital: 'London',
+    image: 'images/london.jpg',
+    description: 'The United Kingdom is known for its rich history, royal heritage, and world-class cultural attractions like the British Museum and Buckingham Palace.',
+    facts: [
+      { label: 'Population', value: '67 million' },
+      { label: 'Currency', value: 'Pound (£)' },
+      { label: 'Language', value: 'English' },
+      { label: 'Rail Network', value: '16,000 km' }
+    ]
+  },
+  'Ireland': {
+    flag: '🇮🇪',
+    capital: 'Dublin',
+    image: 'images/dublin.jpg',
+    description: 'Ireland, the Emerald Isle, is famous for its stunning landscapes, vibrant culture, friendly people, and rich literary heritage.',
+    facts: [
+      { label: 'Population', value: '5 million' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'Irish, English' },
+      { label: 'Rail Network', value: '2,400 km' }
+    ]
+  },
+  'Portugal': {
+    flag: '🇵🇹',
+    capital: 'Lisbon',
+    image: 'images/lisbon.jpg',
+    description: 'Portugal, the westernmost European country, is famous for its port wine, beautiful beaches, historic cities, and fado music.',
+    facts: [
+      { label: 'Population', value: '10 million' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'Portuguese' },
+      { label: 'Rail Network', value: '2,800 km' }
+    ]
+  },
+  'Spain': {
+    flag: '🇪🇸',
+    capital: 'Madrid',
+    image: 'images/madrid.jpg',
+    description: 'Spain is known for its passionate culture, beautiful beaches, vibrant cities, and world-renowned cuisine like paella and tapas.',
+    facts: [
+      { label: 'Population', value: '47 million' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'Spanish' },
+      { label: 'Rail Network', value: '15,000 km' }
+    ]
+  },
+  'France': {
+    flag: '🇫🇷',
+    capital: 'Paris',
+    image: 'images/paris.jfif',
+    description: 'France is renowned for its art, fashion, cuisine, and architecture. Home to the Louvre, Eiffel Tower, and world-class wine regions.',
+    facts: [
+      { label: 'Population', value: '67 million' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'French' },
+      { label: 'Rail Network', value: '29,000 km' }
+    ]
+  },
+  'Belgium': {
+    flag: '🇧🇪',
+    capital: 'Brussels',
+    image: 'images/Brussels.jpg',
+    description: 'Belgium is famous for its medieval towns, Renaissance architecture, and as the headquarters of the European Union and NATO.',
+    facts: [
+      { label: 'Population', value: '11.6 million' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'Dutch, French, German' },
+      { label: 'Rail Network', value: '3,600 km' }
+    ]
+  },
+  'Netherlands': {
+    flag: '🇳🇱',
+    capital: 'Amsterdam',
+    image: 'images/amsterdam.jpg',
+    description: 'The Netherlands is known for its flat landscape, extensive canal system, windmills, tulip fields, and cycling routes.',
+    facts: [
+      { label: 'Population', value: '17.5 million' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'Dutch' },
+      { label: 'Rail Network', value: '3,000 km' }
+    ]
+  },
+  'Germany': {
+    flag: '🇩🇪',
+    capital: 'Berlin',
+    image: 'images/berlin.jpg',
+    description: 'Germany is Europe\'s largest economy, known for its engineering excellence, rich history, beautiful castles, and beer culture.',
+    facts: [
+      { label: 'Population', value: '83 million' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'German' },
+      { label: 'Rail Network', value: '38,500 km' }
+    ]
+  },
+  'Luxembourg': {
+    flag: '🇱🇺',
+    capital: 'Luxembourg',
+    image: 'images/luxembourg.jpg',
+    description: 'Luxembourg is one of the smallest countries in Europe, known for its banking sector, medieval old town, and as a founding EU member.',
+    facts: [
+      { label: 'Population', value: '645,000' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'Luxembourgish, French, German' },
+      { label: 'Rail Network', value: '275 km' }
+    ]
+  },
+  'Switzerland': {
+    flag: '🇨🇭',
+    capital: 'Bern',
+    image: 'images/bern.jpg',
+    description: 'Switzerland is famous for its Alpine scenery, precision timepieces, delicious chocolate, and efficient rail network.',
+    facts: [
+      { label: 'Population', value: '8.7 million' },
+      { label: 'Currency', value: 'Swiss Franc' },
+      { label: 'Language', value: 'German, French, Italian, Romansh' },
+      { label: 'Rail Network', value: '5,200 km' }
+    ]
+  },
+  'Austria': {
+    flag: '🇦🇹',
+    capital: 'Vienna',
+    image: 'images/Vienna.jfif',
+    description: 'Austria is known for its Alpine landscapes, classical music heritage (Mozart, Beethoven), and historic cities.',
+    facts: [
+      { label: 'Population', value: '9 million' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'German' },
+      { label: 'Rail Network', value: '5,800 km' }
+    ]
+  },
+  'Italy': {
+    flag: '🇮🇹',
+    capital: 'Rome',
+    image: 'images/rome.jfif',
+    description: 'Italy, the birthplace of the Renaissance, is famous for its art, architecture, cuisine, fashion, and stunning coastline.',
+    facts: [
+      { label: 'Population', value: '59 million' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'Italian' },
+      { label: 'Rail Network', value: '16,700 km' }
+    ]
+  },
+  'Czech Republic': {
+    flag: '🇨🇿',
+    capital: 'Prague',
+    image: 'images/prague.jpg',
+    description: 'The Czech Republic is known for its stunning castles, historic towns, world-famous beer, and being the home of Bohemian crystal.',
+    facts: [
+      { label: 'Population', value: '10.7 million' },
+      { label: 'Currency', value: 'Czech Koruna' },
+      { label: 'Language', value: 'Czech' },
+      { label: 'Rail Network', value: '9,500 km' }
+    ]
+  },
+  'Slovakia': {
+    flag: '🇸🇰',
+    capital: 'Bratislava',
+    image: 'images/bratislava.jpg',
+    description: 'Slovakia is known for its dramatic natural landscapes, numerous castles, and rich folk traditions.',
+    facts: [
+      { label: 'Population', value: '5.5 million' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'Slovak' },
+      { label: 'Rail Network', value: '3,600 km' }
+    ]
+  },
+  'Hungary': {
+    flag: '🇭🇺',
+    capital: 'Budapest',
+    image: 'images/budapest.jpg',
+    description: 'Hungary is famous for its thermal baths, paprika spice, and beautiful capital Budapest straddling the Danube River.',
+    facts: [
+      { label: 'Population', value: '9.7 million' },
+      { label: 'Currency', value: 'Hungarian Forint' },
+      { label: 'Language', value: 'Hungarian' },
+      { label: 'Rail Network', value: '7,800 km' }
+    ]
+  },
+  'Slovenia': {
+    flag: '🇸🇮',
+    capital: 'Ljubljana',
+    image: 'images/ljubljana.jfif',
+    description: 'Slovenia is known for its mountains, ski resorts, and lakes, including Lake Bled with its island church.',
+    facts: [
+      { label: 'Population', value: '2.1 million' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'Slovene' },
+      { label: 'Rail Network', value: '1,200 km' }
+    ]
+  },
+  'Croatia': {
+    flag: '🇭🇷',
+    capital: 'Zagreb',
+    image: 'images/zagreb.jpg',
+    description: 'Croatia is famous for its stunning Adriatic coastline with over 1,000 islands, medieval cities, and beautiful national parks.',
+    facts: [
+      { label: 'Population', value: '3.9 million' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'Croatian' },
+      { label: 'Rail Network', value: '2,600 km' }
+    ]
+  },
+  'Bosnia & Herzegovina': {
+    flag: '🇧🇦',
+    capital: 'Sarajevo',
+    image: 'images/sarajevo.jfif',
+    description: 'Bosnia and Herzegovina is known for its beautiful countryside, medieval villages, and historic bridges like the Stari Most.',
+    facts: [
+      { label: 'Population', value: '3.3 million' },
+      { label: 'Currency', value: 'Convertible Mark' },
+      { label: 'Language', value: 'Bosnian, Croatian, Serbian' },
+      { label: 'Rail Network', value: '1,000 km' }
+    ]
+  },
+  'Serbia': {
+    flag: '🇷🇸',
+    capital: 'Belgrade',
+    image: 'images/belgrade.jpg',
+    description: 'Serbia is known for its vibrant nightlife, historic fortresses, and being at the crossroads of Central and Southeast Europe.',
+    facts: [
+      { label: 'Population', value: '6.7 million' },
+      { label: 'Currency', value: 'Serbian Dinar' },
+      { label: 'Language', value: 'Serbian' },
+      { label: 'Rail Network', value: '3,800 km' }
+    ]
+  },
+  'Montenegro': {
+    flag: '🇲🇪',
+    capital: 'Podgorica',
+    image: 'images/podgorica.jpg',
+    description: 'Montenegro is known for its dramatic mountains, medieval villages, and narrow beaches along its Adriatic coastline.',
+    facts: [
+      { label: 'Population', value: '620,000' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'Montenegrin' },
+      { label: 'Rail Network', value: '250 km' }
+    ]
+  },
+  'Albania': {
+    flag: '🇦🇱',
+    capital: 'Tirana',
+    image: 'images/tirana.jpg',
+    description: 'Albania is known for its rugged mountains, Ottoman-era architecture, and beautiful beaches along the Ionian and Adriatic seas.',
+    facts: [
+      { label: 'Population', value: '2.8 million' },
+      { label: 'Currency', value: 'Albanian Lek' },
+      { label: 'Language', value: 'Albanian' },
+      { label: 'Rail Network', value: '677 km' }
+    ]
+  },
+  'North Macedonia': {
+    flag: '🇲🇰',
+    capital: 'Skopje',
+    image: 'images/skopje.jpg',
+    description: 'North Macedonia is known for its ancient history, Orthodox churches, Ottoman heritage, and beautiful Lake Ohrid.',
+    facts: [
+      { label: 'Population', value: '2.1 million' },
+      { label: 'Currency', value: 'Macedonian Denar' },
+      { label: 'Language', value: 'Macedonian' },
+      { label: 'Rail Network', value: '925 km' }
+    ]
+  },
+  'Bulgaria': {
+    flag: '🇧🇬',
+    capital: 'Sofia',
+    image: 'images/sofia.jpg',
+    description: 'Bulgaria is known for its Black Sea coastline, mountainous interior, and traditional villages with rich folklore traditions.',
+    facts: [
+      { label: 'Population', value: '6.9 million' },
+      { label: 'Currency', value: 'Bulgarian Lev' },
+      { label: 'Language', value: 'Bulgarian' },
+      { label: 'Rail Network', value: '4,000 km' }
+    ]
+  },
+  'Romania': {
+    flag: '🇷🇴',
+    capital: 'Bucharest',
+    image: 'images/bucharest.jfif',
+    description: 'Romania is famous for its medieval towns, Carpathian Mountains, and the legend of Dracula in Transylvania.',
+    facts: [
+      { label: 'Population', value: '19 million' },
+      { label: 'Currency', value: 'Romanian Leu' },
+      { label: 'Language', value: 'Romanian' },
+      { label: 'Rail Network', value: '10,700 km' }
+    ]
+  },
+  'Moldova': {
+    flag: '🇲🇩',
+    capital: 'Chisinau',
+    image: 'images/chisinau.jfif',
+    description: 'Moldova is known for its wine culture, Soviet-era architecture, and being one of Europe\'s least visited countries.',
+    facts: [
+      { label: 'Population', value: '2.6 million' },
+      { label: 'Currency', value: 'Moldovan Leu' },
+      { label: 'Language', value: 'Romanian' },
+      { label: 'Rail Network', value: '1,200 km' }
+    ]
+  },
+  'Ukraine': {
+    flag: '🇺🇦',
+    capital: 'Kyiv',
+    image: 'images/kyiv.jpg',
+    description: 'Ukraine is Europe\'s largest country by area, known for its Orthodox churches, Black Sea coastline, and rich cultural heritage.',
+    facts: [
+      { label: 'Population', value: '41 million' },
+      { label: 'Currency', value: 'Ukrainian Hryvnia' },
+      { label: 'Language', value: 'Ukrainian' },
+      { label: 'Rail Network', value: '21,600 km' }
+    ]
+  },
+  'Belarus': {
+    flag: '🇧🇾',
+    capital: 'Minsk',
+    image: 'images/minsk.jfif',
+    description: 'Belarus is known for its Stalinist architecture, primeval forests, and being called "the lungs of Europe" for its greenery.',
+    facts: [
+      { label: 'Population', value: '9.4 million' },
+      { label: 'Currency', value: 'Belarusian Ruble' },
+      { label: 'Language', value: 'Belarusian, Russian' },
+      { label: 'Rail Network', value: '5,500 km' }
+    ]
+  },
+  'Poland': {
+    flag: '🇵🇱',
+    capital: 'Warsaw',
+    image: 'images/warsaw.jfif',
+    description: 'Poland is known for its medieval architecture, Jewish heritage, hearty cuisine, and tragic WWII history.',
+    facts: [
+      { label: 'Population', value: '38 million' },
+      { label: 'Currency', value: 'Polish Złoty' },
+      { label: 'Language', value: 'Polish' },
+      { label: 'Rail Network', value: '19,000 km' }
+    ]
+  },
+  'Lithuania': {
+    flag: '🇱🇹',
+    capital: 'Vilnius',
+    image: 'images/vilnius.jfif',
+    description: 'Lithuania is known for its Baroque architecture, medieval castles, and being the geographical center of Europe.',
+    facts: [
+      { label: 'Population', value: '2.8 million' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'Lithuanian' },
+      { label: 'Rail Network', value: '1,900 km' }
+    ]
+  },
+  'Latvia': {
+    flag: '🇱🇻',
+    capital: 'Riga',
+    image: 'images/riga.jfif',
+    description: 'Latvia is known for its Art Nouveau architecture, vast forests, beautiful Baltic Sea coastline, and medieval old towns.',
+    facts: [
+      { label: 'Population', value: '1.9 million' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'Latvian' },
+      { label: 'Rail Network', value: '1,860 km' }
+    ]
+  },
+  'Estonia': {
+    flag: '🇪🇪',
+    capital: 'Tallinn',
+    image: 'images/tallinn.jfif',
+    description: 'Estonia is known for its digital society, medieval old towns, dense forests, and being one of Europe\'s most digitally advanced countries.',
+    facts: [
+      { label: 'Population', value: '1.3 million' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'Estonian' },
+      { label: 'Rail Network', value: '900 km' }
+    ]
+  },
+  'Finland': {
+    flag: '🇫🇮',
+    capital: 'Helsinki',
+    image: 'images/helsinki.jpg',
+    description: 'Finland is known as the "Land of a Thousand Lakes," famous for its sauna culture, Northern Lights, and design heritage.',
+    facts: [
+      { label: 'Population', value: '5.5 million' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'Finnish, Swedish' },
+      { label: 'Rail Network', value: '5,900 km' }
+    ]
+  },
+  'Sweden': {
+    flag: '🇸🇪',
+    capital: 'Stockholm',
+    image: 'images/stockholm.jfif',
+    description: 'Sweden is known for its forests, lakes, innovative design, Viking history, and the Nobel Prize.',
+    facts: [
+      { label: 'Population', value: '10.4 million' },
+      { label: 'Currency', value: 'Swedish Krona' },
+      { label: 'Language', value: 'Swedish' },
+      { label: 'Rail Network', value: '11,000 km' }
+    ]
+  },
+  'Norway': {
+    flag: '🇳🇴',
+    capital: 'Oslo',
+    image: 'images/oslo.jfif',
+    description: 'Norway is famous for its dramatic fjords, midnight sun, Northern Lights, and being one of the world\'s happiest countries.',
+    facts: [
+      { label: 'Population', value: '5.4 million' },
+      { label: 'Currency', value: 'Norwegian Krone' },
+      { label: 'Language', value: 'Norwegian' },
+      { label: 'Rail Network', value: '4,200 km' }
+    ]
+  },
+  'Denmark': {
+    flag: '🇩🇰',
+    capital: 'Copenhagen',
+    image: 'images/copenhagen.jpg',
+    description: 'Denmark is known for its hygge lifestyle, Viking history, modern design, and being consistently ranked as one of the world\'s happiest countries.',
+    facts: [
+      { label: 'Population', value: '5.9 million' },
+      { label: 'Currency', value: 'Danish Krone' },
+      { label: 'Language', value: 'Danish' },
+      { label: 'Rail Network', value: '2,600 km' }
+    ]
+  },
+  'Greece': {
+    flag: '🇬🇷',
+    capital: 'Athens',
+    image: 'images/Athens.jfif',
+    description: 'Greece, the cradle of Western civilization, is famous for its ancient ruins, beautiful islands, and Mediterranean cuisine.',
+    facts: [
+      { label: 'Population', value: '10.7 million' },
+      { label: 'Currency', value: 'Euro (€)' },
+      { label: 'Language', value: 'Greek' },
+      { label: 'Rail Network', value: '2,200 km' }
+    ]
+  },
+  'Turkey': {
+    flag: '🇹🇷',
+    capital: 'Ankara',
+    image: 'images/Ankara.jfif',
+    description: 'Turkey straddles Europe and Asia, known for its rich history, diverse culture, and historic sites like Hagia Sophia.',
+    facts: [
+      { label: 'Population', value: '84 million' },
+      { label: 'Currency', value: 'Turkish Lira' },
+      { label: 'Language', value: 'Turkish' },
+      { label: 'Rail Network', value: '12,000 km' }
+    ]
+  }
+};
+
+// ==================== CITY TO COUNTRY MAPPING ====================
+const cityToCountry = {
+  // United Kingdom
+  'London': 'United Kingdom',
+  'Edinburgh': 'United Kingdom',
+  
+  // Ireland
+  'Dublin': 'Ireland',
+  
+  // Portugal
+  'Lisbon': 'Portugal',
+  
+  // Spain
+  'Madrid': 'Spain',
+  'Barcelona': 'Spain',
+  'Valencia': 'Spain',
+  
+  // France
+  'Paris': 'France',
+  'Marseille': 'France',
+  'Lyon': 'France',
+  
+  // Belgium
+  'Brussels': 'Belgium',
+  
+  // Netherlands
+  'Amsterdam': 'Netherlands',
+  
+  // Germany
+  'Berlin': 'Germany',
+  'Frankfurt': 'Germany',
+  'Munich': 'Germany',
+  'Hamburg': 'Germany',
+  'Cologne': 'Germany',
+  'Hannover': 'Germany',
+  
+  // Luxembourg
+  'Luxembourg': 'Luxembourg',
+  
+  // Switzerland
+  'Zurich': 'Switzerland',
+  'Geneva': 'Switzerland',
+  
+  // Austria
+  'Vienna': 'Austria',
+  'Salzburg': 'Austria',
+  
+  // Italy
+  'Rome': 'Italy',
+  'Milan': 'Italy',
+  'Naples': 'Italy',
+  'Venice': 'Italy',
+  'Florence': 'Italy',
+  
+  // Czech Republic
+  'Prague': 'Czech Republic',
+  
+  // Slovakia
+  'Bratislava': 'Slovakia',
+  
+  // Hungary
+  'Budapest': 'Hungary',
+  
+  // Slovenia
+  'Ljubljana': 'Slovenia',
+  
+  // Croatia
+  'Zagreb': 'Croatia',
+  
+  // Bosnia & Herzegovina
+  'Sarajevo': 'Bosnia & Herzegovina',
+  
+  // Serbia
+  'Belgrade': 'Serbia',
+  
+  // Montenegro
+  'Podgorica': 'Montenegro',
+  
+  // Albania
+  'Tirana': 'Albania',
+  
+  // North Macedonia
+  'Skopje': 'North Macedonia',
+  
+  // Bulgaria
+  'Sofia': 'Bulgaria',
+  
+  // Romania
+  'Bucharest': 'Romania',
+  
+  // Moldova
+  'Chisinau': 'Moldova',
+  
+  // Ukraine
+  'Kyiv': 'Ukraine',
+  
+  // Belarus
+  'Minsk': 'Belarus',
+  
+  // Poland
+  'Warsaw': 'Poland',
+  'Krakow': 'Poland',
+  
+  // Lithuania
+  'Vilnius': 'Lithuania',
+  
+  // Latvia
+  'Riga': 'Latvia',
+  
+  // Estonia
+  'Tallinn': 'Estonia',
+  
+  // Finland
+  'Helsinki': 'Finland',
+  
+  // Sweden
+  'Stockholm': 'Sweden',
+  'Gothenburg': 'Sweden',
+  
+  // Norway
+  'Oslo': 'Norway',
+  
+  // Denmark
+  'Copenhagen': 'Denmark',
+  
+  // Greece
+  'Athens': 'Greece',
+  'Thessaloniki': 'Greece',
+  
+  // Turkey
+  'Istanbul': 'Turkey'
+};
+
+// ==================== COUNTRY INFO FUNCTIONS ====================
+function showCountriesAlongRoute(startCity, endCity) {
+  const route = findFastestRoute(startCity, endCity, 10);
+  if (route.error) {
+    alert('No route found between these cities');
+    return;
+  }
+  
+  // Get unique countries from route
+  const countries = new Set();
+  const trainTypes = new Set();
+  let totalTime = 0;
+  
+  route.path.forEach(leg => {
+    const fromCountry = cityToCountry[leg.from];
+    const toCountry = cityToCountry[leg.to];
+    if (fromCountry) countries.add(fromCountry);
+    if (toCountry) countries.add(toCountry);
+    
+    // Extract train type
+    if (leg.type) trainTypes.add(leg.type.split(' ')[0]);
+    
+    // Calculate time
+    const depMin = toMinutes(leg.dep);
+    const arrMin = toMinutes(leg.arr);
+    if (depMin !== null && arrMin !== null) {
+      const legTime = arrMin >= depMin ? arrMin - depMin : (arrMin + 1440) - depMin;
+      totalTime += legTime;
+    }
+  });
+  
+  // Update stats
+  document.getElementById('countries-count').textContent = countries.size;
+  document.getElementById('route-distance').textContent = '~' + (countries.size * 350) + ' km';
+  document.getElementById('travel-hours').textContent = Math.round(totalTime / 60) + 'h';
+  
+  // Display country cards
+  const container = document.getElementById('country-cards');
+  container.innerHTML = '';
+  
+  if (countries.size === 0) {
+    container.innerHTML = '<div class="placeholder-card"><h3>No route found</h3><p>Try different cities.</p></div>';
+    return;
+  }
+  
+  Array.from(countries).forEach(countryName => {
+    const country = countryData[countryName] || {
+      flag: '🏳️',
+      capital: 'N/A',
+      image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&auto=format&fit=crop',
+      description: 'Information about ' + countryName,
+      facts: [
+        { label: 'Population', value: 'N/A' },
+        { label: 'Currency', value: 'N/A' },
+        { label: 'Language', value: 'N/A' }
+      ]
+    };
+    
+    // Find route legs in this country
+    const countryLegs = route.path.filter(leg => 
+      cityToCountry[leg.from] === countryName || cityToCountry[leg.to] === countryName
+    );
+    
+    const card = document.createElement('div');
+    card.className = 'country-card';
+    card.innerHTML = `
+      <img src="${country.image}" alt="${countryName}" class="country-image">
+      <div class="country-info">
+        <div class="country-header">
+          <h3 class="country-name">${countryName}</h3>
+          <span class="country-flag">${country.flag}</span>
+        </div>
+        <div class="country-capital">Capital: ${country.capital}</div>
+        <p class="country-description">${country.description}</p>
+        
+        <div class="country-facts">
+          ${country.facts.map(fact => `
+            <div class="fact">
+              <span class="fact-label">${fact.label}:</span>
+              <span class="fact-value">${fact.value}</span>
+            </div>
+          `).join('')}
+        </div>
+        
+        ${countryLegs.length > 0 ? `
+          <div class="train-info">
+            <h4>Trains in ${countryName}:</h4>
+            ${countryLegs.slice(0, 2).map(leg => `
+              <div class="train-route">
+                <span class="route-cities">${leg.from} → ${leg.to}</span>
+                <span class="train-time">${leg.dep} - ${leg.arr}</span>
+              </div>
+            `).join('')}
+            ${countryLegs.length > 2 ? `<div style="color:#6b7280;font-size:13px;margin-top:5px;">+ ${countryLegs.length - 2} more connections</div>` : ''}
+          </div>
+        ` : ''}
+      </div>
+    `;
+    
+    container.appendChild(card);
+  });
+}
+
+document.getElementById('show-countries').addEventListener('click', () => {
+  const start = document.getElementById('journey-start').value.trim();
+  const end = document.getElementById('journey-end').value.trim();
+  
+  if (!start || !end) {
+    alert('Please enter both start and destination cities');
+    return;
+  }
+  
+  if (!graph[start] || !graph[end]) {
+    alert('One or both cities not found in the network');
+    return;
+  }
+  
+  showCountriesAlongRoute(start, end);
+});
+
+// Sync with main search
+document.getElementById('searchBtn').addEventListener('click', () => {
+  setTimeout(() => {
+    const start = document.getElementById('start').value;
+    const end = document.getElementById('end').value;
+    document.getElementById('journey-start').value = start;
+    document.getElementById('journey-end').value = end;
+    
+    // Auto-show countries after search
+    if (start && end) {
+      setTimeout(() => showCountriesAlongRoute(start, end), 500);
+    }
+  }, 100);
+});
+
+// Initialize with example
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('journey-start').value = 'Paris';
+    document.getElementById('journey-end').value = 'Barcelona';
+    showCountriesAlongRoute('Paris', 'Barcelona');
+  }, 1000);
+});
 
 // -----------------------------
 // Build graph
@@ -355,179 +1435,134 @@ function findFastestRoute(start, end, maxDays=5){
 // -----------------------------
 // Map coordinates
 // -----------------------------
+
 const coords = {
-  'istanbul': [800, 240],
-  // UK & IRELAND
-  'London': [100, 40],
-  'Manchester': [80, 20],
-  'Glasgow': [60, 0],
-
-  // WESTERN & SOUTHERN EUROPE
-  'Paris': [200, 80],
-  'Lyon': [220, 160],
-  'Marseille': [260, 280],
-  'Nice': [300, 300],
-  'Bordeaux': [160, 200],
-  'Toulouse': [180, 260],
-  'Montpellier': [220, 240],
-  'Nantes': [140, 160],
-  'Tours': [180, 180],
-  'Orléans': [200, 160],
-  'Le Mans': [160, 140],
-  'Blois': [180, 160],
-  'Angers': [140, 180],
-  'Saumur': [160, 200],
-  'Poitiers': [200, 200],
-  'Limoges': [240, 240],
-  'La Rochelle': [120, 220],
-  'Niort': [160, 220],
-  'Saintes': [160, 240],
-  'Royan': [140, 260],
-  'Arcachon': [120, 280],
-  'Libourne': [160, 280],
-  'Bergerac': [200, 280],
-  'Périgueux': [220, 260],
-  'Brive': [240, 260],
-  'Angoulême': [200, 240],
-
-  // Brittany / Normandy
-  'Brest': [60, 120],
-  'Quimper': [80, 140],
-  'Lorient': [100, 160],
-  'Vannes': [120, 160],
-  'Rennes': [140, 140],
-  'Saint-Malo': [160, 100],
-  'Dinan': [140, 120],
-  'Morlaix': [80, 100],
-  'Roscoff': [60, 80],
-  'Pontorson': [160, 100],
-  'Mont-Saint-Michel': [160, 100],
-  'Caen': [180, 80],
-  'Bayeux': [180, 60],
-  'Le Havre': [200, 40],
-  'Lisieux': [180, 60],
-  'Evreux': [200, 80],
-  'Alençon': [180, 100],
-  'Deauville': [200, 60],
-
-  // Massif Central
-  'Tulle': [260, 280],
-  'Ussel': [280, 280],
-  'Montluçon': [260, 260],
-  'Clermont-Ferrand': [280, 260],
-  'Le Mont-Dore': [280, 280],
-  'St-Flour': [280, 300],
-  'Aurillac': [300, 300],
-  'Figeac': [300, 280],
-  'Alonissos': [620, 320],
-  // Burgundy & Franche-Comté
-  'Dijon': [300, 200],
-  'Beaune': [300, 180],
-  'Montbard': [280, 160],
-  'Chalon-sur-Saône': [320, 180],
-  'Roanne': [300, 220],
-  'Bourg-en-Bresse': [320, 200],
+  // UNITED KINGDOM
+  'London': [280, 220],
+  'Edinburgh': [260, 170],
   
-  // Lorraine
-  'Metz': [360, 140],
-  'Nancy': [340, 160],
-  'Épinal': [340, 180],
-  'Lunéville': [360, 160],
-  'St-Dié-des-Vosges': [360, 180],
-  'Remiremont': [360, 200],
-  'Colmar': [380, 160],
-  'Mulhouse': [400, 160],
-  'Belfort': [420, 160],
-
-  // Italy
-  'Milan': [460, 200],
-  'Venice': [500, 180],
-  'Florence': [480, 240],
-  'Rome': [500, 300],
-  'Naples': [540, 360],
-  'Foggia': [580, 260],
-  'Bari': [600, 280],
-  'Brindisi': [620, 300],
-  'Taranto': [600, 320],
-  'Lecce': [640, 360],
-  'Salerno': [520, 380],
-  'Cosenza': [580, 420],
-  'Paola': [560, 400],
-  'Sibari': [590, 430],
-  'Metaponto': [580, 380],
-  'Alicante': [200, 340],
-  'Valencia': [220, 320],
-  'Barcelona': [240, 300],
-  'Madrid': [180, 360],
-  'Seville': [140, 400],
-  'Lisbon': [100, 440],
-  'Porto': [80, 400],
-  'Coimbra': [100, 380],
-  'Faro': [120, 420],
-
-  // Germany & Central Europe
-  'Amsterdam': [320, 40],
-  'Brussels': [300, 60],
-  'Cologne': [320, 100],
-  'Frankfurt': [360, 120],
-  'Hannover': [380, 60],
-  'Berlin': [420, 40],
-  'Munich': [440, 160],
-  'Salzburg': [460, 180],
-  'Prague': [460, 100],
-  'Vienna': [500, 140],
-  'Budapest': [540, 160],
-  'Bratislava': [520, 140],
-  'Krakow': [480, 80],
-  'Warsaw': [500, 60],
-  'Frankfurt': [360, 120],
+  // IRELAND
+  'Dublin': [230, 210],
   
-
-  // Switzerland
-  'Zurich': [440, 180],
-  'Geneva': [380, 180],
-  'Basel': [400, 160],
-
-  // Scandinavia
-  'Oslo': [600, 0],
-  'Stockholm': [660, 20],
-  'Goteborg': [640, 60],
-  'Copenhagen': [620, 100],
-  'Hamburg': [600, 140],
-  'Helsinki': [680, 0],
-
-  // Eastern Europe & Balkans
-  'Warsaw': [700, 40],
-  'Krakow': [680, 80],
-  'Belgrade': [640, 200],
-  'Bucharest': [700, 220],
-  'Sofia': [680, 260],
-  'Ljubljana': [600, 180],
-  'Zagreb': [620, 180],
-  'Alexandroupoli': [740, 200],
-  'Kavala': [720, 240],
-
-  // Greece
-  'Athens': [600, 320],
-  'Piraeus': [610, 330],
-  'Thessaloniki': [580, 280],
-  'Larissa': [560, 300],
-  'Volos': [540, 320],
-  'Lamia': [540, 360],
-  'Patras': [520, 400],
-  'Kalamata': [500, 440],
-  'Chalkis': [560, 360],
-  'Ioannina': [480, 320],
-  'Trikala': [540, 300],
-  'Corinth': [550, 420],
-  'Igoumenitsa': [450, 320],
-  'Mykonos': [620, 360],
-  'Santorini': [640, 400],
-  'Crete': [660, 460]
-
+  // PORTUGAL
+  'Lisbon': [180, 380],
+  
+  // SPAIN
+  'Madrid': [230, 370],
+  'Barcelona': [300, 360],
+  
+  // FRANCE
+  'Paris': [320, 270],
+  'Marseille': [360, 340],
+  'Lyon': [350, 300],
+  
+  // BELGIUM
+  'Brussels': [340, 240],
+  
+  // NETHERLANDS
+  'Amsterdam': [340, 220],
+  
+  // GERMANY
+  'Berlin': [420, 220],
+  'Frankfurt': [360, 250],
+  'Munich': [390, 280],
+  'Hamburg': [380, 200],
+  
+  // LUXEMBOURG
+  'Luxembourg': [350, 260],
+  
+  // SWITZERLAND
+  'Zurich': [370, 290],
+  'Geneva': [340, 300],
+  
+  // AUSTRIA
+  'Vienna': [440, 270],
+  'Salzburg': [400, 280],
+  
+  // ITALY
+  'Rome': [410, 350],
+  'Milan': [380, 310],
+  'Naples': [430, 380],
+  'Venice': [410, 300],
+  
+  // CZECH REPUBLIC
+  'Prague': [410, 250],
+  
+  // SLOVAKIA
+  'Bratislava': [430, 270],
+  
+  // HUNGARY
+  'Budapest': [450, 280],
+  
+  // SLOVENIA
+  'Ljubljana': [410, 300],
+  
+  // CROATIA
+  'Zagreb': [420, 310],
+  
+  // BOSNIA & HERZEGOVINA
+  'Sarajevo': [440, 320],
+  
+  // SERBIA
+  'Belgrade': [450, 310],
+  
+  // MONTENEGRO
+  'Podgorica': [440, 340],
+  
+  // ALBANIA
+  'Tirana': [440, 350],
+  
+  // NORTH MACEDONIA
+  'Skopje': [460, 340],
+  
+  // BULGARIA
+  'Sofia': [470, 320],
+  
+  // ROMANIA
+  'Bucharest': [490, 300],
+  
+  // MOLDOVA
+  'Chisinau': [500, 290],
+  
+  // UKRAINE
+  'Kyiv': [520, 250],
+  
+  // BELARUS
+  'Minsk': [480, 230],
+  
+  // POLAND
+  'Warsaw': [450, 240],
+  'Krakow': [440, 260],
+  
+  // LITHUANIA
+  'Vilnius': [470, 210],
+  
+  // LATVIA
+  'Riga': [460, 190],
+  
+  // ESTONIA
+  'Tallinn': [470, 170],
+  
+  // FINLAND
+  'Helsinki': [490, 160],
+  
+  // SWEDEN
+  'Stockholm': [440, 150],
+  
+  // NORWAY
+  'Oslo': [400, 150],
+  
+  // DENMARK
+  'Copenhagen': [390, 190],
+  
+  // GREECE
+  'Athens': [470, 380],
+  'Thessaloniki': [460, 350],
+  
+  // TURKEY (European part)
+  'Istanbul': [520, 350],
 
 };
-
 
 
 // -----------------------------
@@ -625,7 +1660,7 @@ searchBtn.addEventListener('click', ()=>{
 });
 
 exampleBtn.addEventListener('click', ()=>{
-  startInput.value='Paris'; endInput.value='Florence'; maxDaysInput.value='10';
+  startInput.value='Paris'; endInput.value='Barcelona'; maxDaysInput.value='10';
   searchBtn.click();
 });
 
