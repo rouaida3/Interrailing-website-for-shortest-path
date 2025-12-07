@@ -23,9 +23,10 @@ Visualize an optimal travel plan based on time + day usage
 ✔ If a train crosses midnight, the system increments the day count
 ✔ Dijkstra only accepts valid edges that don’t exceed the user's available days
 
-🎥 Demo Video: https://drive.google.com/file/d/1AKky3UL1209MrOk6s3B_tEqh5IJUzWl1/view?usp=sharing
+# 🎥 Demo Video: 
+https://drive.google.com/file/d/1AKky3UL1209MrOk6s3B_tEqh5IJUzWl1/view?usp=sharing
 
-📌 Future Improvements
+# Future Improvements
 
 Add map visualization using Leaflet.js
 
