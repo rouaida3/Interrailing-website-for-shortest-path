@@ -1,7 +1,7 @@
 # Interrailing-website-for-shortest-path
 A web application that helps EuroPass (Interrail Pass) travelers find the shortest and most time-efficient route across Europe using Dijkstra’s algorithm while respecting limited travel days and EuroPass constraints.
 
-#🚆 Overview
+# Overview
 
 The EuroPass (Interrail Pass) gives travelers unlimited train rides across Europe, but only within a limited number of travel days. Those days start counting after the first train ride and reset at midnight.
 
@@ -16,7 +16,7 @@ Respect the EuroPass midnight rule and day-limit constraint
 Visualize an optimal travel plan based on time + day usage
 
 
-🕛 EuroPass Constraints Implemented
+# EuroPass Constraints Implemented
 
 ✔ Travel days start after the first train taken
 ✔ New travel day begins at midnight
